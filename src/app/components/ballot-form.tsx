@@ -1,3 +1,14 @@
+export const BallotForm = async () => {
+  const { nominations } = await getData();
+  return (
+    <>
+      {nominations.nominees.map((nominee) => (
+        <div key={nominee.film}>{nominee.film}</div>
+      ))}
+    </>
+  );
+};
+
 async function getData() {
   // const res = await fetch('https://api.example.com/...')
   // The return value is *not* serialized
@@ -77,15 +88,3 @@ async function getData() {
     },
   };
 }
-const BallotPage = async () => {
-  const { nominations } = await getData();
-  return (
-    <>
-      {nominations.nominees.map((nominee) => (
-        <div key={nominee.film}>{nominee.film}</div>
-      ))}
-    </>
-  );
-};
-
-export default BallotPage;
