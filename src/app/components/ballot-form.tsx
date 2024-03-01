@@ -1,90 +1,50 @@
+import clientPromise from "../../../lib/mongodb";
+import { Category } from "@/types";
+
 export const BallotForm = async () => {
-  const { nominations } = await getData();
+  const { categories } = await getData();
   return (
     <>
-      {nominations.nominees.map((nominee) => (
-        <div key={nominee.film}>{nominee.film}</div>
-      ))}
+      {categories.map(({ name, nominees }) => {
+        return (
+          <div key={name}>
+            <div>{name}</div>
+            <div>
+              {nominees?.map((nominee) => {
+                return <div key={nominee._id}>{nominee.name}</div>;
+              })}
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 };
 
-async function getData() {
-  // const res = await fetch('https://api.example.com/...')
-  // The return value is *not* serialized
-  // You can return Date, Map, Set, etc.
-
-  // if (!res.ok) {
-  //   // This will activate the closest `error.js` Error Boundary
-  //   throw new Error('Failed to fetch data')
-  // }
-
-  // return res.json()
-  return {
-    nominations: {
-      category: "Best Picture",
-      nominees: [
+const getData = async (): Promise<{ categories: Category[] }> => {
+  try {
+    const client = await clientPromise;
+    const db = client.db(process.env.DB_NAME);
+    const categories = await db
+      .collection("categories")
+      .aggregate([
         {
-          film: "American Fiction",
-          producers: [
-            "Ben LeClair",
-            "Nikos Karamigios",
-            "Cord Jefferson",
-            "Jermaine Johnson",
-          ],
+          $lookup: {
+            from: "nominees",
+            localField: "_id",
+            foreignField: "categoryId",
+            as: "nominees",
+          },
         },
-        {
-          film: "Anatomy of a Fall",
-          producers: ["Marie-Ange Luciani", "David Thion"],
-        },
-        {
-          film: "Barbie",
-          producers: [
-            "David Heyman",
-            "Margot Robbie",
-            "Tom Ackerley",
-            "Robbie Brenner",
-          ],
-        },
-        { film: "The Holdovers", producers: ["Mark Johnson"] },
-        {
-          film: "Killers of the Flower Moon",
-          producers: [
-            "Dan Friedkin",
-            "Bradley Thomas",
-            "Martin Scorsese",
-            "Daniel Lupi",
-          ],
-        },
-        {
-          film: "Maestro",
-          producers: [
-            "Bradley Cooper",
-            "Steven Spielberg",
-            "Fred Berner",
-            "Amy Durning",
-            "Kristie Macosko Krieger",
-          ],
-        },
-        {
-          film: "Oppenheimer",
-          producers: ["Emma Thomas", "Charles Roven", "Christopher Nolan"],
-        },
-        {
-          film: "Past Lives",
-          producers: ["David Hinojosa", "Christine Vachon", "Pamela Koffler"],
-        },
-        {
-          film: "Poor Things",
-          producers: [
-            "Ed Guiney",
-            "Andrew Lowe",
-            "Yorgos Lanthimos",
-            "Emma Stone",
-          ],
-        },
-        { film: "The Zone of Interest", producers: ["James Wilson"] },
-      ],
-    },
-  };
-}
+      ])
+      .sort({ name: 1 })
+      .limit(40)
+      .toArray();
+    return {
+      categories: JSON.parse(JSON.stringify(categories)),
+    };
+  } catch (e) {
+    console.error(e);
+    return { categories: [] };
+  }
+};

@@ -15,7 +15,7 @@ const handler = NextAuth({
     }),
   ],
   adapter: MongoDBAdapter(clientPromise, {
-    databaseName: "oscars-ballot-users",
+    databaseName: "OscarsDB",
   }) as any,
 });
 
