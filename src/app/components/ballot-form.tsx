@@ -1,10 +1,12 @@
 import clientPromise from "../../../lib/mongodb";
 import { Category } from "@/types";
+import { SelectCategory } from "./ballot/select-category";
 
 export const BallotForm = async () => {
   const { categories } = await getData();
   return (
-    <>
+    <div className="px-4 py-2">
+      <SelectCategory categories={categories} />
       {categories.map(({ name, nominees }) => {
         return (
           <div key={name}>
@@ -17,7 +19,7 @@ export const BallotForm = async () => {
           </div>
         );
       })}
-    </>
+    </div>
   );
 };
 
