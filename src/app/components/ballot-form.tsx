@@ -1,52 +1,18 @@
-import clientPromise from "../../../lib/mongodb";
-import { Category } from "@/types";
-import { SelectCategory } from "./ballot/select-category";
+import { SelectCategory } from "./ballot/category/select";
+import { CategoryCard } from "./ballot/category/card";
+import { getCategories } from "@/queries/categories";
 
 export const BallotForm = async () => {
-  const { categories } = await getData();
+  const { categories } = await getCategories();
+
   return (
     <div className="px-4 py-2">
       <SelectCategory categories={categories} />
-      {categories.map(({ name, nominees }) => {
-        return (
-          <div key={name}>
-            <div>{name}</div>
-            <div>
-              {nominees?.map((nominee) => {
-                return <div key={nominee._id}>{nominee.name}</div>;
-              })}
-            </div>
-          </div>
-        );
-      })}
+      <div id="accordion-open" data-accordion="open">
+        {categories.map((category) => {
+          return <CategoryCard key={category.name} {...category} />;
+        })}
+      </div>
     </div>
   );
-};
-
-const getData = async (): Promise<{ categories: Category[] }> => {
-  try {
-    const client = await clientPromise;
-    const db = client.db(process.env.DB_NAME);
-    const categories = await db
-      .collection("categories")
-      .aggregate([
-        {
-          $lookup: {
-            from: "nominees",
-            localField: "_id",
-            foreignField: "categoryId",
-            as: "nominees",
-          },
-        },
-      ])
-      .sort({ name: 1 })
-      .limit(40)
-      .toArray();
-    return {
-      categories: JSON.parse(JSON.stringify(categories)),
-    };
-  } catch (e) {
-    console.error(e);
-    return { categories: [] };
-  }
 };
