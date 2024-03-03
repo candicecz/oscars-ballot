@@ -1,14 +1,19 @@
 "use client";
 import { SelectCategory } from "./category/select";
 import { CategoryCard } from "./category/card";
-import { Category } from "@/types";
+import { CategoryWithNominees } from "@/types";
 import { useCallback, useEffect, useState } from "react";
 import useInterval from "@/hooks/useInterval";
+import { Grid } from "./category/grid";
 
 // The Oscars are held at this date time.
 const OSCARS_DATETIME = new Date("2024-03-10T19:00:00Z");
 
-export const Ballot = ({ categories }: { categories: Category[] }) => {
+export const Ballot = ({
+  categories,
+}: {
+  categories: CategoryWithNominees[];
+}) => {
   /***** Handle voting  *****/
   const [isVotingOpen, setIsVotingOpen] = useState(true);
 
@@ -27,18 +32,39 @@ export const Ballot = ({ categories }: { categories: Category[] }) => {
   }, [isVotingOpen, stopInterval]);
 
   return (
-    <div className="px-4 py-2">
-      <h1 className="text-3xl font-bold mb-4">Ballot</h1>
-      <p className="mb-4">
-        {isVotingOpen
-          ? "Voting is open! Make your selections below."
-          : "Voting is closed."}
-      </p>
-      <SelectCategory categories={categories} />
-      <div id="accordion-open" data-accordion="open">
-        {categories.map((category) => {
-          return <CategoryCard key={category.name} {...category} />;
-        })}
+    <div className="flex flex-col">
+      {isVotingOpen && (
+        <p className="font-semibold text-center font-2xl py-10 mb-8 border-y-2 border-slate-200 dark:border-gray-700">
+          NOW OPEN
+        </p>
+      )}
+      <div className="text-center my-6">
+        <h1 className="text-3xl font-medium mb-4 text-center">
+          THE 96TH ACADEMY AWARDS | 2024
+        </h1>
+        <p className="text-lg font-extralight">
+          {isVotingOpen
+            ? `Voting closes at ${OSCARS_DATETIME.toLocaleString("en-US", {
+                weekday: "long",
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                hour: "numeric",
+              })}.`
+            : "Voting is closed."}
+        </p>
+      </div>
+      <div className="px-6">
+        <SelectCategory categories={categories} />
+        <Grid>
+          {categories.map((category) => {
+            return (
+              <div key={category._id} className="h-auto max-w-full ">
+                <CategoryCard {...category} />
+              </div>
+            );
+          })}
+        </Grid>
       </div>
     </div>
   );

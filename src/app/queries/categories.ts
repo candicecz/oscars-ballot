@@ -1,7 +1,9 @@
-import { Category } from "@/types";
+import { CategoryWithNominees } from "@/types";
 import clientPromise from "../../../lib/mongodb";
 
-export const getCategories = async (): Promise<{ categories: Category[] }> => {
+export const getCategories = async (): Promise<{
+  categories: CategoryWithNominees[];
+}> => {
   try {
     const client = await clientPromise;
     const db = client.db(process.env.DB_NAME);
