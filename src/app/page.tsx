@@ -1,15 +1,17 @@
 import { Dashboard } from "./components/dashboard/";
-import { BallotForm } from "./components/ballot-form";
 import { LoginButton } from "./components/login-btn";
 import { AuthRoute } from "./components/route-wrapper/auth-route";
+import { Ballot } from "./components/ballot";
+import { getCategories } from "./queries/categories";
 
-export default function Home() {
+export default async function Home() {
+  const { categories } = await getCategories();
   return (
     <main className="flex min-h-screen flex-col">
       <LoginButton />
       <AuthRoute>
         <Dashboard />
-        <BallotForm />
+        <Ballot categories={categories} />
       </AuthRoute>
     </main>
   );
