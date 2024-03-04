@@ -1,16 +1,23 @@
 "use client";
 
 import React from "react";
-import { CategoryWithNominees } from "@/types";
+import { CategoryWithNominees, Nominee } from "@/types";
 import { useState } from "react";
 import { transformCategoryName2Slug } from "../helpers";
 
+export interface CategoryCardProps extends CategoryWithNominees {
+  updateForm: (nomineeId: Nominee["_id"]) => void;
+}
+
 export const CategoryCard = ({
+  _id,
   name,
   nominees,
+  updateForm,
   ...rest
-}: CategoryWithNominees) => {
+}: CategoryCardProps) => {
   const [open, setOpen] = useState(true);
+
   return (
     <section id={transformCategoryName2Slug(name)} className="w-full ">
       <h2 id="accordion-open-heading-1">
@@ -46,14 +53,30 @@ export const CategoryCard = ({
         className={open ? "block" : "hidden"}
         aria-labelledby="accordion-open-heading-1"
       >
-        <div className="p-5 border border-b-1 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+        <ul className="p-5 border border-b-1 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
+          {/* nominees as radio buttons when voting is open */}
           {nominees.map((nominee) => (
-            <React.Fragment key={nominee._id}>
-              <p>{nominee.name}</p>
-              <p>{nominee.credits}</p>
-            </React.Fragment>
+            <li key={nominee._id}>
+              <input
+                type="radio"
+                id={`category-${nominee._id}`}
+                name={"" + name}
+                value={"" + nominee._id}
+                className="hidden peer"
+                onChange={() => updateForm(nominee._id)}
+              />
+              <label
+                htmlFor={`category-${nominee._id}`}
+                className="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer hover:border-oscars-200 dark:hover:text-oscars-300 dark:border-gray-700 dark:peer-checked:text-oscars-500 peer-checked:border-oscars-600 peer-checked:text-oscars-600 hover:text-oscars-600 hover:bg-oscars-100 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700"
+              >
+                <div className="block">
+                  <p>{nominee.name}</p>
+                  <p>{nominee.credits}</p>
+                </div>
+              </label>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

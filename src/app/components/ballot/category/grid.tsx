@@ -3,7 +3,6 @@ import React, { useState } from "react";
 
 export const Grid = ({ children }: { children: React.ReactNode }) => {
   const [numColumns, setNumColumns] = useState(2);
-  console.log(numColumns);
   return (
     <div className="">
       <div
