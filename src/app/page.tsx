@@ -7,7 +7,7 @@ import { getCategories } from "./queries/categories";
 export default async function Home() {
   const { categories } = await getCategories();
   return (
-    <main className="flex min-h-screen flex-col">
+    <main className="flex min-h-screen flex-col min-w-72">
       <LoginButton />
       <AuthRoute>
         <Dashboard />

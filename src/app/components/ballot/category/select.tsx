@@ -8,7 +8,7 @@ export const SelectCategory = ({ categories }: { categories: Category[] }) => {
   const router = useRouter();
   return (
     <div className="w-full flex justify-end py-4">
-      <form className="max-w-sm flex-1 py-0 overflow-hidden border border-gray-300 rounded-lg focus-visible:outline-none focus:ring-blue-500 focus:border-blue-500 focus-visible:ring-blue-500 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500">
+      <form className="w-full flex-1 py-0 overflow-hidden border border-gray-300 rounded-lg focus-visible:outline-none focus:ring-blue-500 focus:border-blue-500 focus-visible:ring-blue-500 dark:border-gray-600 dark:focus:ring-blue-500 dark:focus:border-blue-500  sm:max-w-sm">
         <label htmlFor="categories" className="hidden">
           Select an award category
         </label>

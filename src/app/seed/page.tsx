@@ -18,7 +18,7 @@ export default async function SeedDBPage() {
           <Dashboard />
         </AuthRoute>
         {/* Order matters here, seed categories before nominees. */}
-        <SeedDatabase
+        {/* <SeedDatabase
           count={categories.length}
           description="Seed categories before seeding nominees."
           label="Seed Categories"
@@ -29,7 +29,7 @@ export default async function SeedDBPage() {
           description="Seed nominees once categories are available."
           label="Seed Nominees"
           seedFn={seedNominees}
-        />
+        /> */}
       </main>
     </>
   );

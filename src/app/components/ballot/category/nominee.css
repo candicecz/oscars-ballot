@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.nominee {
+  align-items: center;
+  background: white;
+  border: 1px solid;
+  border-color: theme(colors.gray.200);
+  color: theme(colors.gray.500);
+  cursor: pointer;
+  display: inline-flex;
+  justify-content: space-between;
+  padding: theme(spacing.2) theme(spacing.5);
+  width: 100%;
+}
+
+.nominee:hover {
+  background: theme(colors.oscars.100);
+  border-color: theme(colors.oscars.400);
+  color: theme(colors.oscars.600);
+  .name {
+    color: inherit;
+  }
+}
+
+.nominee:where([data-theme="dark"], [data-theme="dark"] *) {
+  background: transparent;
+  border-color: theme(colors.gray.700);
+  color: theme(colors.gray.400);
+  &:hover {
+    background: theme(colors.gray.800);
+  }
+}

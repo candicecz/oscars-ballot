@@ -1,23 +1,36 @@
 "use client";
 import ThemeToggle from "../theme-toggle";
 import { useSession, signOut } from "next-auth/react";
+import Image from "next/image";
 
 export const Dashboard = () => {
   const { data: session } = useSession();
-  // if (session) {
-  //   return (
-  //     <>
-  //       Signed in as {session?.user?.email} <br />
-  //       <button onClick={() => signOut()}>Sign out</button>
-  //     </>
-  //   );
-  // }
+
   return (
-    <div className="flex color-white p-8 text-slate-900 dark:text-white bg-white dark:bg-gray-800">
-      <h1>
-        <strong>Welcome</strong> {session?.user?.name?.split(" ")[0] || ""}!
-      </h1>
-      <ThemeToggle />
+    <div className="flex items-center relative color-white text-slate-900 dark:text-white bg-white dark:bg-gray-800 sm:p-6">
+      <div className="flex flex-1 items-center justify-between flex-col-reverse sm:flex-row">
+        <h1 className="py-4 flex-1 whitespace-nowrap sm:py-0">
+          <strong>Welcome</strong> {session?.user?.name?.split(" ")[0] || ""}!
+        </h1>
+        <div className="flex flex-1 justify-center">
+          <Image
+            src="/assets/logo.png"
+            width={40}
+            height={50}
+            alt="Picture of an oscar statue"
+          />
+        </div>
+        <div className="flex flex-1 w-full justify-between p-2 sm:justify-end sm:p-0">
+          <ThemeToggle />
+          <button
+            type="button"
+            onClick={() => signOut()}
+            className="mx-2 px-3 py-2 text-sm whitespace-nowrap font-medium text-center text-white bg-oscars-500 rounded-md hover:bg-oscars-600 focus:ring-4 focus:outline-none focus:ring-oscars-300 dark:bg-oscars-600 dark:hover:bg-oscars-700 dark:focus:ring-oscars-800"
+          >
+            Sign out
+          </button>
+        </div>
+      </div>
     </div>
   );
 };
