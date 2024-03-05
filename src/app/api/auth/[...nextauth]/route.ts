@@ -1,11 +1,12 @@
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import clientPromise from "../../../../../lib/mongodb";
 import GoogleProvider from "next-auth/providers/google";
 
 // For more information on each option (and a full list of options) go to
 // https://authjs.dev/reference/providers/oauth
-const handler = NextAuth({
+
+export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 
   providers: [
@@ -17,6 +18,8 @@ const handler = NextAuth({
   adapter: MongoDBAdapter(clientPromise, {
     databaseName: "OscarsDB",
   }) as any,
-});
+};
+
+const handler = NextAuth(authOptions);
 
 export { handler as GET, handler as POST };

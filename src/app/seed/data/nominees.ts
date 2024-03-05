@@ -457,63 +457,66 @@ export const NOMINEES_DATA = [
     category: "BEST PICTURE",
     name: "AMERICAN FICTION",
     film: "AMERICAN FICTION",
-    producers:
-      "Ben LeClair, Nikos Karamigios, Cord Jefferson and Jermaine Johnson",
+    credits:
+      "Ben LeClair, Nikos Karamigios, Cord Jefferson and Jermaine Johnson, producers",
   },
   {
     category: "BEST PICTURE",
     name: "ANATOMY OF A FALL",
     film: "ANATOMY OF A FALL",
-    producers: "Marie-Ange Luciani and David Thion",
+    credits: "Marie-Ange Luciani and David Thion, producers",
   },
   {
     category: "BEST PICTURE",
     name: "BARBIE",
     film: "BARBIE",
-    producers: "David Heyman, Margot Robbie, Tom Ackerley and Robbie Brenner",
+    credits:
+      "David Heyman, Margot Robbie, Tom Ackerley and Robbie Brenner, producers",
   },
   {
     category: "BEST PICTURE",
     name: "THE HOLDOVERS",
     film: "THE HOLDOVERS",
-    producers: "Mark Johnson",
+    credits: "Mark Johnson, producers",
   },
   {
     category: "BEST PICTURE",
     name: "KILLERS OF THE FLOWER MOON",
     film: "KILLERS OF THE FLOWER MOON",
-    producers: "Dan Friedkin, Bradley Thomas, Martin Scorsese and Daniel Lupi",
+    credits:
+      "Dan Friedkin, Bradley Thomas, Martin Scorsese and Daniel Lupi, producers",
   },
   {
     category: "BEST PICTURE",
     name: "MAESTRO",
     film: "MAESTRO",
-    producers:
-      "Bradley Cooper, Steven Spielberg, Fred Berner, Amy Durning and Kristie Macosko Krieger",
+    credits:
+      "Bradley Cooper, Steven Spielberg, Fred Berner, Amy Durning and Kristie Macosko Krieger, producers",
   },
   {
     category: "BEST PICTURE",
     name: "OPPENHEIMER",
     film: "OPPENHEIMER",
-    producers: "Emma Thomas, Charles Roven and Christopher Nolan",
+    credits: "Emma Thomas, Charles Roven and Christopher Nolan, producers",
   },
   {
     category: "BEST PICTURE",
     name: "PAST LIVES",
     film: "PAST LIVES",
-    producers: "David Hinojosa, Christine Vachon and Pamela Koffler",
+    credits: "David Hinojosa, Christine Vachon and Pamela Koffler, producers",
   },
   {
     category: "BEST PICTURE",
     name: "POOR THINGS",
     film: "POOR THINGS",
-    producers: "Ed Guiney, Andrew Lowe, Yorgos Lanthimos and Emma Stone",
+    credits:
+      "Ed Guiney, Andrew Lowe, Yorgos Lanthimos and Emma Stone, producers",
   },
   {
     category: "BEST PICTURE",
     name: "THE ZONE OF INTEREST",
     film: "THE ZONE OF INTEREST",
-    producers: "James Wilson",
+    credits: "James Wilson, producers",
   },
 
   {

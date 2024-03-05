@@ -1,23 +1,21 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { useReadLocalStorage } from "usehooks-ts";
-import useInterval from "@/hooks/useInterval";
-import { CategoryWithNominees, Nominee } from "@/types";
-import { CategoryCard } from "./category/card";
-import { CategoriesList } from "./category/list";
+import { CategoryWithNominees, User } from "@/types";
+import { BallotForm } from "./form";
 import { SelectCategory } from "./category/select";
+import useInterval from "@/hooks/useInterval";
 
 // The Oscars are held at this date time.
 const OSCARS_DATETIME = new Date("2024-03-10T19:00:00");
 
 export const Ballot = ({
   categories,
+  ballot,
 }: {
   categories: CategoryWithNominees[];
+  ballot?: User["ballot"];
 }) => {
-  const isCollapsed = useReadLocalStorage("isCollapsed") as boolean;
-
   /***** Handle voting  *****/
   const [isVotingOpen, setIsVotingOpen] = useState(true);
 
@@ -35,25 +33,6 @@ export const Ballot = ({
   useEffect(() => {
     !isVotingOpen && stopInterval();
   }, [isVotingOpen, stopInterval]);
-
-  /***** Handle form submission *****/
-  const [formIsSubmitted, setFormIsSubmitted] = useState(false);
-  const [form, setForm] = useState<{
-    [key: CategoryWithNominees["_id"]]: Nominee["_id"];
-  }>({});
-
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isVotingOpen) {
-      console.log("submit form", form);
-      setFormIsSubmitted(true);
-    }
-  };
-
-  const missingCategories = formIsSubmitted
-    ? categories.filter((category) => !form[category._id])
-    : [];
-
   return (
     <div className="flex flex-col">
       {isVotingOpen && (
@@ -77,57 +56,13 @@ export const Ballot = ({
             : "Voting is closed."}
         </p>
       </div>
-      <div className="w-full px-4 max-w-screen-3xl mx-auto sm:px-6 sm:w-600 md:8">
+      <div className="bg-white/50 mb-32 rounded-sm w-full px-4 max-w-screen-3xl mx-auto sm:px-6 sm:w-600 md:8">
         <SelectCategory categories={categories} />
-        <form onSubmit={handleFormSubmit}>
-          {/* Categories */}
-          <CategoriesList>
-            <>
-              {categories.map((category) => {
-                return (
-                  <div key={category._id} className="h-auto max-w-full ">
-                    <CategoryCard
-                      isCollapsed={isCollapsed}
-                      updateForm={(nomineeId) => {
-                        isVotingOpen &&
-                          setForm({ ...form, [category._id]: nomineeId });
-                      }}
-                      isSelected={!!(isVotingOpen && form[category._id])}
-                      isVotingOpen={isVotingOpen}
-                      {...category}
-                    />
-                  </div>
-                );
-              })}
-            </>
-          </CategoriesList>
-          <div className="flex flex-col items-center py-6">
-            {formIsSubmitted && missingCategories.length > 0 && isVotingOpen ? (
-              <div className="text-center text-red-500 px-4 py-2">
-                Please vote for all categories:
-                <ul>
-                  {missingCategories.slice(0, 3).map((category) => (
-                    <li key={category._id}>{category.name}</li>
-                  ))}
-                  {missingCategories.length > 3 && (
-                    <li>...and {missingCategories.length - 3} more.</li>
-                  )}
-                </ul>
-              </div>
-            ) : (
-              <></>
-              // <>Voting is Completed</>
-            )}
-            {isVotingOpen && (
-              <button
-                type="submit"
-                className="my-2 text-white bg-oscars-500 hover:bg-oscars-600 focus:ring-4 focus:ring-oscars-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-oscars-600 dark:hover:bg-oscars-700 focus:outline-none dark:focus:ring-oscars-800"
-              >
-                Submit votes
-              </button>
-            )}
-          </div>
-        </form>
+        <BallotForm
+          categories={categories}
+          isVotingOpen={isVotingOpen}
+          ballot={ballot}
+        />
       </div>
     </div>
   );

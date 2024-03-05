@@ -1,25 +1,22 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CategoryWithNominees, Nominee } from "@/types";
+import { CategoryWithNominees } from "@/types";
 import { transformCategoryName2Slug } from "../helpers";
-import { NomineeItem } from "./nominee";
 
 export interface CategoryCardProps extends CategoryWithNominees {
-  updateForm: (nomineeId: Nominee["_id"]) => void;
+  hasValueSelected?: boolean;
   isCollapsed?: boolean;
-  isSelected?: boolean;
   isVotingOpen?: boolean;
+  children: React.ReactNode;
 }
 
 export const CategoryCard = ({
-  _id,
   name,
-  nominees,
-  updateForm,
+  hasValueSelected,
   isCollapsed,
-  isSelected,
   isVotingOpen,
+  children,
 }: CategoryCardProps) => {
   const [open, setOpen] = useState(isCollapsed ? !isCollapsed : true);
 
@@ -44,7 +41,7 @@ export const CategoryCard = ({
           <span className="flex items-center truncate">
             {name}
             {/* Check mark when radio button is selected */}
-            {isSelected && (
+            {isVotingOpen && hasValueSelected && (
               <svg
                 className="w-4 h-4 mx-2 text-green-500 dark:text-green.200"
                 aria-hidden="true"
@@ -87,25 +84,7 @@ export const CategoryCard = ({
       >
         <ul className="h-full bg-slate-100 p-5 border border-b-1 border-gray-200 dark:border-gray-700 dark:bg-gray-950">
           {/* nominees as radio buttons when voting is open */}
-          {nominees.map((nominee) => (
-            <li key={nominee._id} className="my-1 dark:bg-gray-900">
-              <input
-                type="radio"
-                id={`category-${nominee._id}`}
-                name={"" + name}
-                value={"" + nominee._id}
-                className="hidden peer"
-                onChange={() => updateForm(nominee._id)}
-              />
-              <NomineeItem
-                nominee={nominee}
-                isVotingOpen={isVotingOpen}
-                // isWinner={nominee.film === "Barbie"}
-                // isSelected={user.choice===nominee._id}
-                // categoryHasWinner={!!category.winner}
-              />
-            </li>
-          ))}
+          {children}
         </ul>
       </div>
     </section>
