@@ -3,20 +3,22 @@ import Image from "next/image";
 import "./nominee.css";
 
 interface NomineeItemProps {
-  nominee: Nominee;
-  isWinner?: boolean;
   categoryHasWinner?: boolean;
-  isVotingOpen?: boolean;
+  isAdmin?: User["isAdmin"];
   isSelected: boolean;
+  isVotingOpen?: boolean;
+  isWinner?: boolean;
+  nominee: Nominee;
   userVotes?: User[];
 }
 
 export const NomineeItem = ({
-  nominee,
-  isWinner,
   categoryHasWinner,
+  isAdmin,
   isVotingOpen,
+  isWinner,
   isSelected,
+  nominee,
   userVotes,
   ...props
 }: NomineeItemProps) => {
@@ -24,7 +26,7 @@ export const NomineeItem = ({
     <>
       <label
         htmlFor={`category-${nominee._id}`}
-        className={`flex-1 rounded-lg gap-2 nominee border-gray-700 text-gray-400 dark:bg-transparent dark:border-gray-700 dark:text-gray-400 ${
+        className={`flex-1 rounded-lg gap-2 nominee border-gray-700 text-gray-400  dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 ${
           isVotingOpen && isSelected ? "selected" : ""
         } ${isVotingOpen ? "voting-open" : ""} ${
           !isVotingOpen && categoryHasWinner
@@ -66,6 +68,14 @@ export const NomineeItem = ({
           </div>
         )}
       </label>
+      {isAdmin && !categoryHasWinner && !isVotingOpen && (
+        <button
+          type="button"
+          className="px-3 py-2 ml-4 my-2 text-white bg-oscars-500 hover:bg-oscars-600 focus:ring-1 focus:ring-oscars-300 font-medium rounded-lg text-sm  mb-2 dark:bg-oscars-600 dark:hover:bg-oscars-700 focus:outline-none dark:focus:ring-oscars-800"
+        >
+          Winner
+        </button>
+      )}
     </>
   );
 };

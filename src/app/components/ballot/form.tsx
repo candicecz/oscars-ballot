@@ -81,9 +81,9 @@ export const BallotForm = ({
                   isNomineeSelected={!!ballot[category._id]}
                   hasWonCategory={ballot[category._id] === category.winnerId}
                 >
-                  {category.nominees.map((nominee) => {
+                  {category.nominees.map((nominee, idx) => {
                     return (
-                      <li key={nominee._id} className="my-1 dark:bg-gray-900">
+                      <li key={nominee._id} className="flex my-1">
                         <input
                           checked={ballot[category._id] === nominee._id}
                           className="hidden peer"
@@ -96,15 +96,16 @@ export const BallotForm = ({
                           value={"" + nominee._id}
                         />
                         <NomineeItem
-                          isVotingOpen={isVotingOpen}
                           categoryHasWinner={!!category.winnerId}
-                          // isWinner={!isVotingOpen && nominee._id === category.winnerId}
                           nominee={nominee}
+                          // isAdmin= {user.isAdmin}
+                          isSelected={ballot[category._id] === nominee._id}
+                          // isWinner={!isVotingOpen && nominee._id === category.winnerId}
+                          isVotingOpen={isVotingOpen}
                           userVotes={userVotesByNominee({
                             categoryId: category._id,
                             nomineeId: nominee._id,
                           })}
-                          isSelected={ballot[category._id] === nominee._id}
                         />
                       </li>
                     );
