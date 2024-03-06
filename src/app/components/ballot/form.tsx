@@ -97,7 +97,8 @@ export const BallotForm = ({
                         />
                         <NomineeItem
                           isVotingOpen={isVotingOpen}
-                          // isWinner={nominee._id === category.winnerId}
+                          categoryHasWinner={!!category.winnerId}
+                          // isWinner={!isVotingOpen && nominee._id === category.winnerId}
                           nominee={nominee}
                           userVotes={userVotesByNominee({
                             categoryId: category._id,

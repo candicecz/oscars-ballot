@@ -27,7 +27,11 @@ export const NomineeItem = ({
         className={`flex-1 rounded-lg gap-2 nominee border-gray-700 text-gray-400 dark:bg-transparent dark:border-gray-700 dark:text-gray-400 ${
           isVotingOpen && isSelected ? "selected" : ""
         } ${isVotingOpen ? "voting-open" : ""} ${
-          !isVotingOpen && isWinner ? "winner" : ""
+          !isVotingOpen && categoryHasWinner
+            ? isWinner
+              ? "winner"
+              : "opacity-70"
+            : ""
         }`}
         {...props}
       >
@@ -41,13 +45,7 @@ export const NomineeItem = ({
               alt="Picture of an oscar statue attributed to winning nominee"
             />
           )}
-          <div
-            className={`block ${
-              !categoryHasWinner || (categoryHasWinner && isWinner)
-                ? "opacity-100"
-                : "opacity-60"
-            }`}
-          >
+          <div className="block">
             <p className="name font-medium">{nominee.name}</p>
             <p>{nominee.credits}</p>
           </div>
