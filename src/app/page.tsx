@@ -5,7 +5,7 @@ import { Ballot } from "./components/ballot";
 import { getCategories } from "./queries/categories";
 import { getUserByEmail, getUsersByTeamId } from "./queries/users";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "./api/auth/[...nextauth]/route";
+import { authOptions } from "./api/auth/[...nextauth]/config";
 
 export default async function Home() {
   const { categories } = await getCategories();

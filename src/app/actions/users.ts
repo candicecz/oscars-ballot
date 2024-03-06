@@ -3,8 +3,8 @@
 import { ObjectId } from "mongodb";
 import clientPromise from "../../../lib/mongodb";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/api/auth/[...nextauth]/route";
 import { getUserByEmail } from "@/queries/users";
+import { authOptions } from "@/api/auth/[...nextauth]/config";
 
 // UPDATE ballot for user
 export const updateBallotForUser = async (_: any, formData: FormData) => {
