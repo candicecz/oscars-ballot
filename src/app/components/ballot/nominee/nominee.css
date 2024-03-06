@@ -8,27 +8,45 @@
   border: 1px solid;
   border-color: theme(colors.gray.200);
   color: theme(colors.gray.500);
-  cursor: pointer;
   display: inline-flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   padding: theme(spacing.2) theme(spacing.5);
   width: 100%;
-}
-
-.nominee:hover {
-  background: theme(colors.oscars.100);
-  border-color: theme(colors.oscars.400);
-  color: theme(colors.oscars.600);
   .name {
-    color: inherit;
+    color: theme(colors.gray.600);
+    &:where([data-theme="dark"], [data-theme="dark"] *) {
+      color: theme(colors.gray.300);
+    }
   }
-}
-
-.nominee:where([data-theme="dark"], [data-theme="dark"] *) {
-  background: transparent;
-  border-color: theme(colors.gray.700);
-  color: theme(colors.gray.400);
-  &:hover {
-    background: theme(colors.gray.800);
+  &.winner,
+  &.selected {
+    background: white;
+    border-color: theme(colors.oscars.600);
+    color: theme(colors.oscars.600);
+    .name {
+      color: theme(colors.oscars.600);
+    }
+    &:where([data-theme="dark"], [data-theme="dark"] *) {
+      border-color: theme(colors.oscars.600);
+      color: theme(colors.oscars.500);
+      background: transparent;
+      .name {
+        color: theme(colors.oscars.500);
+      }
+    }
+  }
+  &.voting-open:hover,
+  &.selected:hover {
+    cursor: pointer;
+    background: theme(colors.oscars.100);
+    border-color: theme(colors.oscars.400);
+    color: theme(colors.oscars.600) !important;
+    .name {
+      color: theme(colors.oscars.600);
+    }
+    &:where([data-theme="dark"], [data-theme="dark"] *) {
+      background: theme(colors.gray.800);
+    }
   }
 }

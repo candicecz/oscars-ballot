@@ -75,10 +75,11 @@ export const BallotForm = ({
             return (
               <div key={category._id} className="h-auto max-w-full ">
                 <CategoryCard
+                  name={category.name}
                   isCollapsed={isCollapsed}
                   isVotingOpen={isVotingOpen}
-                  hasValueSelected={!!ballot[category._id]}
-                  {...category}
+                  isNomineeSelected={!!ballot[category._id]}
+                  hasWonCategory={ballot[category._id] === category.winnerId}
                 >
                   {category.nominees.map((nominee) => {
                     return (
@@ -95,13 +96,14 @@ export const BallotForm = ({
                           value={"" + nominee._id}
                         />
                         <NomineeItem
-                          nominee={nominee}
                           isVotingOpen={isVotingOpen}
+                          // isWinner={nominee._id === category.winnerId}
+                          nominee={nominee}
                           userVotes={userVotesByNominee({
                             categoryId: category._id,
                             nomineeId: nominee._id,
                           })}
-                          // isWinner={nominee.film === "Barbie"}
+                          isSelected={ballot[category._id] === nominee._id}
                         />
                       </li>
                     );

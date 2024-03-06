@@ -7,6 +7,7 @@ interface NomineeItemProps {
   isWinner?: boolean;
   categoryHasWinner?: boolean;
   isVotingOpen?: boolean;
+  isSelected: boolean;
   userVotes?: User[];
 }
 
@@ -15,23 +16,31 @@ export const NomineeItem = ({
   isWinner,
   categoryHasWinner,
   isVotingOpen,
+  isSelected,
   userVotes,
   ...props
 }: NomineeItemProps) => {
-  const hoverClasses = isVotingOpen
-    ? "hover:border-oscars-400 hover:text-oscars-600 hover:bg-oscars-100 dark:hover:bg-gray-800"
-    : "";
-  const peerCheckedClasses = isVotingOpen
-    ? "peer-checked:border-oscars-600 peer-checked:text-oscars-600 dark:peer-checked:text-oscars-500"
-    : "";
   return (
     <>
       <label
         htmlFor={`category-${nominee._id}`}
-        className={`rounded-lg nominee ${hoverClasses} ${peerCheckedClasses}`}
+        className={`flex-1 rounded-lg gap-2 nominee border-gray-700 text-gray-400 dark:bg-transparent dark:border-gray-700 dark:text-gray-400 ${
+          isVotingOpen && isSelected ? "selected" : ""
+        } ${isVotingOpen ? "voting-open" : ""} ${
+          !isVotingOpen && isWinner ? "winner" : ""
+        }`}
         {...props}
       >
-        <div className="flex flex-1 justify-between gap-2 flex-wrap">
+        <div className="flex items-center">
+          {isWinner && (
+            <Image
+              className="mr-4"
+              src="/assets/oscar.png"
+              width={25}
+              height={31}
+              alt="Picture of an oscar statue attributed to winning nominee"
+            />
+          )}
           <div
             className={`block ${
               !categoryHasWinner || (categoryHasWinner && isWinner)
@@ -39,33 +48,25 @@ export const NomineeItem = ({
                 : "opacity-60"
             }`}
           >
-            <p className="font-medium">{nominee.name}</p>
+            <p className="name font-medium">{nominee.name}</p>
             <p>{nominee.credits}</p>
           </div>
-          {!isVotingOpen && userVotes && userVotes?.length > 0 && (
-            <div className="flex items-end flex-wrap gap-1">
-              {userVotes?.map(({ image, _id, name }) => (
-                <Image
-                  key={_id + ""}
-                  src={image}
-                  width={20}
-                  height={20}
-                  alt={`${name}'s profile picture. ${name} voted for ${nominee.name}`}
-                />
-              ))}
-            </div>
-          )}
         </div>
 
-        {/* {isSelected && <>usericon</>} */}
-        {/* {isWinner && (
-          <Image
-            src="/assets/oscar.png"
-            width={25}
-            height={31}
-            alt="Picture of an oscar statue attributed to winning nominee"
-          />
-        )} */}
+        {/* User profile pictures on nominees they voted for. */}
+        {!isVotingOpen && userVotes && userVotes?.length > 0 && (
+          <div className="flex items-end flex-wrap gap-1">
+            {userVotes?.map(({ image, _id, name }) => (
+              <Image
+                key={_id + ""}
+                src={image}
+                width={20}
+                height={20}
+                alt={`${name}'s profile picture. ${name} voted for ${nominee.name}`}
+              />
+            ))}
+          </div>
+        )}
       </label>
     </>
   );

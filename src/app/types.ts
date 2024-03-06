@@ -3,6 +3,7 @@ import { ObjectId } from "mongodb";
 export interface Category {
   _id: string;
   name: string;
+  winnerId?: Nominee["_id"];
 }
 
 export interface Nominee {
@@ -13,21 +14,8 @@ export interface Nominee {
   credits: string;
 }
 
-export interface NomineeWithUserVote {
-  _id: string;
-  name: string;
-  categoryId: string;
-  film: string;
-  credits: string;
-  votedBy: User[];
-}
-
 export interface CategoryWithNominees extends Category {
   nominees: Nominee[];
-}
-
-export interface CategoryWithNomineesAndVotes extends Category {
-  nominees: NomineeWithUserVote[];
 }
 
 export interface User {

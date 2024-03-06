@@ -4,17 +4,20 @@ import React, { useEffect, useState } from "react";
 import { CategoryWithNominees } from "@/types";
 import { transformCategoryName2Slug } from "../helpers";
 
-export interface CategoryCardProps extends CategoryWithNominees {
-  hasValueSelected?: boolean;
+export interface CategoryCardProps {
+  name: CategoryWithNominees["name"];
+  hasWonCategory?: boolean;
   isCollapsed?: boolean;
+  isNomineeSelected?: boolean;
   isVotingOpen?: boolean;
   children: React.ReactNode;
 }
 
 export const CategoryCard = ({
   name,
-  hasValueSelected,
+  hasWonCategory,
   isCollapsed,
+  isNomineeSelected,
   isVotingOpen,
   children,
 }: CategoryCardProps) => {
@@ -40,10 +43,11 @@ export const CategoryCard = ({
         >
           <span className="flex items-center truncate">
             {name}
-            {/* Check mark when radio button is selected */}
-            {isVotingOpen && hasValueSelected && (
+            {/* Check mark when radio button is selected or when category winner is correctly guessed by user*/}
+            {((isVotingOpen && isNomineeSelected) ||
+              (!isVotingOpen && hasWonCategory)) && (
               <svg
-                className="w-4 h-4 mx-2 text-green-500 dark:text-green.200"
+                className="w-4 h-4 mx-2 text-green-500"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -58,7 +62,27 @@ export const CategoryCard = ({
                 ></path>
               </svg>
             )}
+
+            {/* Cross mark when category winner is incorrectly guessed by user */}
+            {!isVotingOpen && !hasWonCategory && (
+              <svg
+                className="w-4 h-4 mx-2 text-red-500"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 20 20"
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+              >
+                <line x1="7" y1="12.1" x2="12.1" y2="7" />
+                <line x1="12.1" y1="12.1" x2="7" y2="7" />
+                <path d="M17.2,11.9l0.9-0.9c0.8-0.8,0.8-2,0-2.8l-0.9-0.9c-0.4-0.4-0.6-0.9-0.6-1.4V4.6c0-1.1-0.9-2-2-2h-1.3  c-0.5,0-1-0.2-1.4-0.6L11,1.1c-0.8-0.8-2-0.8-2.8,0L7.3,2C6.9,2.4,6.4,2.6,5.8,2.6H4.6c-1.1,0-2,0.9-2,2v1.3c0,0.5-0.2,1-0.6,1.4  L1.1,8.2c-0.8,0.8-0.8,2,0,2.8L2,11.9c0.4,0.4,0.6,0.9,0.6,1.4v1.3c0,1.1,0.9,2,2,2h1.3c0.5,0,1,0.2,1.4,0.6l0.9,0.9  c0.8,0.8,2,0.8,2.8,0l0.9-0.9c0.4-0.4,0.9-0.6,1.4-0.6h1.3c1.1,0,2-0.9,2-2v-1.3C16.6,12.8,16.8,12.3,17.2,11.9z" />
+              </svg>
+            )}
           </span>
+
           {/* open + close envelop icon denoting the open and closing of the category */}
           <svg
             className="w-4 h-4 shrink-0"
