@@ -69,19 +69,21 @@ export const getUsers = async (): Promise<{
 export const getUsersByTeamId = async ({
   teamId,
 }: {
-  teamId: ObjectId;
+  teamId?: string;
 }): Promise<{
   users: User[];
 }> => {
   try {
+    if (!teamId) return { users: [] };
     const client = await clientPromise;
     const db = client.db(process.env.DB_NAME);
     const users = await db
       .collection("users")
-      .find({ teamId })
+      .find({ teamId: new ObjectId(teamId) })
       .sort({ name: 1 })
       .limit(1000)
       .toArray();
+
     return {
       users: JSON.parse(JSON.stringify(users)),
     };

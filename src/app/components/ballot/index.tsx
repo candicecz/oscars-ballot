@@ -12,9 +12,11 @@ const OSCARS_DATETIME = new Date("2024-03-10T19:00:00");
 export const Ballot = ({
   categories,
   ballot,
+  team,
 }: {
   categories: CategoryWithNominees[];
   ballot?: User["ballot"];
+  team: User[];
 }) => {
   /***** Handle voting  *****/
   const [isVotingOpen, setIsVotingOpen] = useState(true);
@@ -56,12 +58,13 @@ export const Ballot = ({
             : "Voting is closed."}
         </p>
       </div>
-      <div className="bg-white/50 mb-32 rounded-sm w-full px-4 max-w-screen-3xl mx-auto sm:px-6 sm:w-600 md:8">
+      <div className="bg-white/50 mb-32 rounded-sm w-full px-4 max-w-screen-3xl mx-auto sm:px-6 sm:w-600 md:8 dark:bg-transparent">
         <SelectCategory categories={categories} />
         <BallotForm
           categories={categories}
           isVotingOpen={isVotingOpen}
           ballot={ballot}
+          team={team}
         />
       </div>
     </div>

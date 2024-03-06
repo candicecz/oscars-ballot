@@ -5,16 +5,29 @@ export interface Category {
   name: string;
 }
 
-export interface CategoryWithNominees extends Category {
-  nominees: Nominee[];
-}
-
 export interface Nominee {
   _id: string;
   name: string;
   categoryId: string;
   film: string;
   credits: string;
+}
+
+export interface NomineeWithUserVote {
+  _id: string;
+  name: string;
+  categoryId: string;
+  film: string;
+  credits: string;
+  votedBy: User[];
+}
+
+export interface CategoryWithNominees extends Category {
+  nominees: Nominee[];
+}
+
+export interface CategoryWithNomineesAndVotes extends Category {
+  nominees: NomineeWithUserVote[];
 }
 
 export interface User {

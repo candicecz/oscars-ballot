@@ -3,7 +3,7 @@ import { LoginButton } from "./components/login-btn";
 import { AuthRoute } from "./components/route-wrapper/auth-route";
 import { Ballot } from "./components/ballot";
 import { getCategories } from "./queries/categories";
-import { getUserByEmail } from "./queries/users";
+import { getUserByEmail, getUsersByTeamId } from "./queries/users";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 
@@ -14,12 +14,13 @@ export default async function Home() {
   const { user } = await getUserByEmail({
     email,
   });
+  const { users: team } = await getUsersByTeamId({ teamId: user?.teamId });
   return (
     <main className="flex min-h-screen flex-col min-w-72">
       <LoginButton />
       <AuthRoute>
         <Dashboard />
-        <Ballot categories={categories} ballot={user?.ballot} />
+        <Ballot categories={categories} ballot={user?.ballot} team={team} />
       </AuthRoute>
     </main>
   );

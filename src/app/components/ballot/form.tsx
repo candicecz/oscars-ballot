@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import { useReadLocalStorage } from "usehooks-ts";
 import { CategoryWithNominees, Nominee, User } from "@/types";
 import { CategoryCard } from "./category/card";
@@ -14,26 +14,25 @@ export const BallotForm = ({
   categories,
   isVotingOpen,
   ballot: defaultBallot,
+  team,
 }: {
   categories: CategoryWithNominees[];
   isVotingOpen?: boolean;
   ballot?: User["ballot"];
+  team?: User[];
 }) => {
   const isCollapsed = useReadLocalStorage("isCollapsed") as boolean;
 
-  const [ballot, setBallot] = useState<User["ballot"]>(
-    () => defaultBallot || {}
-  );
-
+  /***** Handle ballot  *****/
   const [state, formAction] = useFormState(updateBallotForUser, {
     form: {},
     success: false,
     error: null,
   });
 
-  const missingCategories = state.success
-    ? categories.filter((category) => !state.form[category._id])
-    : [];
+  const [ballot, setBallot] = useState<User["ballot"]>(
+    () => defaultBallot || {}
+  );
 
   const handleFormChange = useCallback(
     (nominee: Nominee) => {
@@ -45,6 +44,29 @@ export const BallotForm = ({
     [ballot, isVotingOpen]
   );
 
+  const missingCategories = useMemo(
+    () =>
+      state.success
+        ? categories.filter((category) => !state.form[category._id])
+        : [],
+    [categories, state.success, state.form]
+  );
+  const userVotesByNominee = useCallback(
+    ({
+      categoryId,
+      nomineeId,
+    }: {
+      categoryId: CategoryWithNominees["_id"];
+      nomineeId: Nominee["_id"];
+    }) => {
+      return team?.filter((user) => {
+        if (user.ballot) {
+          return user.ballot[categoryId] === nomineeId;
+        }
+      });
+    },
+    [team]
+  );
   return (
     <form action={formAction}>
       <CategoriesList>
@@ -75,9 +97,11 @@ export const BallotForm = ({
                         <NomineeItem
                           nominee={nominee}
                           isVotingOpen={isVotingOpen}
+                          userVotes={userVotesByNominee({
+                            categoryId: category._id,
+                            nomineeId: nominee._id,
+                          })}
                           // isWinner={nominee.film === "Barbie"}
-                          // isSelected={user.choice===nominee._id}
-                          // categoryHasWinner={!!category.winner}
                         />
                       </li>
                     );
