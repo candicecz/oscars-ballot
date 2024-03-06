@@ -20,7 +20,12 @@ export default async function Home() {
       <LoginButton />
       <AuthRoute>
         <Dashboard />
-        <Ballot categories={categories} ballot={user?.ballot} team={team} />
+        <Ballot
+          categories={categories}
+          ballot={user?.ballot}
+          team={team}
+          isAdmin={user?.isAdmin}
+        />
       </AuthRoute>
     </main>
   );

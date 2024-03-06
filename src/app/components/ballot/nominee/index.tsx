@@ -4,7 +4,6 @@ import "./nominee.css";
 
 interface NomineeItemProps {
   categoryHasWinner?: boolean;
-  isAdmin?: User["isAdmin"];
   isSelected: boolean;
   isVotingOpen?: boolean;
   isWinner?: boolean;
@@ -14,7 +13,6 @@ interface NomineeItemProps {
 
 export const NomineeItem = ({
   categoryHasWinner,
-  isAdmin,
   isVotingOpen,
   isWinner,
   isSelected,
@@ -68,14 +66,6 @@ export const NomineeItem = ({
           </div>
         )}
       </label>
-      {isAdmin && !categoryHasWinner && !isVotingOpen && (
-        <button
-          type="button"
-          className="px-3 py-2 ml-4 my-2 text-white bg-oscars-500 hover:bg-oscars-600 focus:ring-1 focus:ring-oscars-300 font-medium rounded-lg text-sm  mb-2 dark:bg-oscars-600 dark:hover:bg-oscars-700 focus:outline-none dark:focus:ring-oscars-800"
-        >
-          Winner
-        </button>
-      )}
     </>
   );
 };

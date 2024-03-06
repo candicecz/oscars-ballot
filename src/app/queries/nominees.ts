@@ -19,5 +19,3 @@ export const getNominees = async (): Promise<{ nominees: Nominee[] }> => {
     return { nominees: [] };
   }
 };
-
-// get nominees by categoryId

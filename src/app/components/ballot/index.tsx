@@ -1,22 +1,23 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { CategoryWithNominees, User } from "@/types";
 import { BallotForm } from "./form";
 import { SelectCategory } from "./category/select";
 import useInterval from "@/hooks/useInterval";
 
 // The Oscars are held at this date time.
-const OSCARS_DATETIME = new Date("2024-03-10T19:00:00");
+const OSCARS_DATETIME = new Date("2024-02-10T19:00:00");
 
 export const Ballot = ({
-  categories,
-  ballot,
-  team,
+  categories: defaultCategories,
+  ...props
 }: {
   categories: CategoryWithNominees[];
   ballot?: User["ballot"];
   team: User[];
+  isAdmin: User["isAdmin"];
 }) => {
   /***** Handle voting  *****/
   const [isVotingOpen, setIsVotingOpen] = useState(true);
@@ -35,6 +36,29 @@ export const Ballot = ({
   useEffect(() => {
     !isVotingOpen && stopInterval();
   }, [isVotingOpen, stopInterval]);
+
+  /***** Handle categories refetching *****/
+  const [categories, setCategories] = useState<CategoryWithNominees[]>(
+    defaultCategories || []
+  );
+  const { refetch } = useQuery(
+    "categories",
+    async () => {
+      const categories = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`
+      ).then((res) => res.json());
+      return categories;
+    },
+    {
+      onSuccess: (data) => {
+        setCategories(data.categories);
+      },
+      refetchInterval: 1000 * 10, // Refetch every 10 seconds.,
+      refetchIntervalInBackground: true,
+      enabled: !isVotingOpen, // enable refetching when voting is closed since this is used to detect category winners.
+    }
+  );
+
   return (
     <div className="flex flex-col">
       {isVotingOpen && (
@@ -63,8 +87,8 @@ export const Ballot = ({
         <BallotForm
           categories={categories}
           isVotingOpen={isVotingOpen}
-          ballot={ballot}
-          team={team}
+          triggerCategoriesUpdate={refetch}
+          {...props}
         />
       </div>
     </div>

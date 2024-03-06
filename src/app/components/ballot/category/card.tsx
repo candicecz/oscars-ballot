@@ -1,24 +1,24 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CategoryWithNominees } from "@/types";
+import { CategoryWithNominees, Nominee } from "@/types";
 import { transformCategoryName2Slug } from "../helpers";
 
 export interface CategoryCardProps {
   name: CategoryWithNominees["name"];
-  hasWonCategory?: boolean;
   isCollapsed?: boolean;
-  isNomineeSelected?: boolean;
   isVotingOpen?: boolean;
   children: React.ReactNode;
+  selectedNomineeId?: Nominee["_id"];
+  winningNomineeId?: CategoryWithNominees["winnerId"];
 }
 
 export const CategoryCard = ({
   name,
-  hasWonCategory,
   isCollapsed,
-  isNomineeSelected,
   isVotingOpen,
+  selectedNomineeId,
+  winningNomineeId,
   children,
 }: CategoryCardProps) => {
   const [open, setOpen] = useState(isCollapsed ? !isCollapsed : true);
@@ -26,6 +26,19 @@ export const CategoryCard = ({
   useEffect(() => {
     setOpen(!isCollapsed);
   }, [isCollapsed]);
+
+  // Determine whether the user has selected the winning nominee
+  const isWinningCategory =
+    !isVotingOpen &&
+    selectedNomineeId &&
+    winningNomineeId &&
+    selectedNomineeId === winningNomineeId;
+
+  const isLosingCategory =
+    !isVotingOpen &&
+    selectedNomineeId &&
+    winningNomineeId &&
+    selectedNomineeId !== winningNomineeId;
 
   return (
     <section
@@ -44,8 +57,7 @@ export const CategoryCard = ({
           <span className="flex items-center truncate">
             {name}
             {/* Check mark when radio button is selected or when category winner is correctly guessed by user*/}
-            {((isVotingOpen && isNomineeSelected) ||
-              (!isVotingOpen && hasWonCategory)) && (
+            {((isVotingOpen && !!selectedNomineeId) || isWinningCategory) && (
               <svg
                 className="w-4 h-4 mx-2 text-green-500"
                 aria-hidden="true"
@@ -64,7 +76,7 @@ export const CategoryCard = ({
             )}
 
             {/* Cross mark when category winner is incorrectly guessed by user */}
-            {!isVotingOpen && !hasWonCategory && (
+            {isLosingCategory && (
               <svg
                 className="w-4 h-4 mx-2 text-red-500"
                 aria-hidden="true"

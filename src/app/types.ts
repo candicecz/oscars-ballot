@@ -24,7 +24,7 @@ export interface User {
   email: string;
   image: string;
   emailVerified: boolean | null;
-  teamId?: string;
-  ballot: { [key: Category["_id"]]: Nominee["_id"] };
+  ballot?: { [key: Category["_id"]]: Nominee["_id"] };
   isAdmin?: boolean;
+  teamId?: string;
 }

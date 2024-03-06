@@ -3,5 +3,5 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   const categories = await getCategories();
-  return NextResponse.json({ categories }, { status: 200 });
+  return NextResponse.json(categories, { status: 200 });
 }
