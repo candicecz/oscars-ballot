@@ -24,7 +24,7 @@ export const NomineeItem = ({
     <>
       <label
         htmlFor={`category-${nominee._id}`}
-        className={`flex-1 rounded-lg gap-2 nominee border-gray-700 text-gray-400  dark:bg-gray-900 dark:border-gray-700 dark:text-gray-400 ${
+        className={`flex-1 rounded-lg gap-2 nominee border-gray-700 text-gray-400  dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 ${
           isVotingOpen && isSelected ? "selected" : ""
         } ${isVotingOpen ? "voting-open" : ""} ${
           !isVotingOpen && categoryHasWinner
@@ -46,7 +46,7 @@ export const NomineeItem = ({
             />
           )}
           <div className="block">
-            <p className="name font-medium">{nominee.name}</p>
+            <p className="name">{nominee.name}</p>
             <p>{nominee.credits}</p>
           </div>
         </div>

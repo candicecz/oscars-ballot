@@ -11,7 +11,7 @@
   display: inline-flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  padding: theme(spacing.2) theme(spacing.5);
+  padding: theme(spacing.4) theme(spacing.5);
   width: 100%;
   .name {
     color: theme(colors.gray.600);
@@ -28,19 +28,20 @@
       color: theme(colors.oscars.600);
     }
     &:where([data-theme="dark"], [data-theme="dark"] *) {
-      border-color: theme(colors.oscars.600);
-      color: theme(colors.oscars.500);
-      background: transparent;
+      border-color: theme(colors.oscars.500);
+      color: theme(colors.oscars.400);
+      background: theme(colors.gray.800);
       .name {
-        color: theme(colors.oscars.500);
+        color: theme(colors.oscars.400);
       }
     }
   }
+
   &.voting-open:hover,
   &.selected:hover {
     cursor: pointer;
     background: theme(colors.oscars.100);
-    border-color: theme(colors.oscars.400);
+    border-color: theme(colors.oscars.500);
     color: theme(colors.oscars.600) !important;
     .name {
       color: theme(colors.oscars.600);
