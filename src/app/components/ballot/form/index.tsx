@@ -74,7 +74,7 @@ export const BallotForm = ({
     [team]
   );
   return (
-    <form action={formAction}>
+    <form id="ballot-form" action={formAction}>
       <CategoriesList>
         <>
           {categories.map((category) => {

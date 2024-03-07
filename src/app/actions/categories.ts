@@ -1,6 +1,7 @@
 "use server";
 import { ObjectId } from "mongodb";
 import clientPromise from "../../../lib/mongodb";
+import { revalidatePath } from "next/cache";
 
 export const updateCategoryWinner = async ({
   categoryId,
@@ -22,6 +23,7 @@ export const updateCategoryWinner = async ({
         { _id: new ObjectId(categoryId) },
         { $set: { winnerId: winnerId } }
       );
+    revalidatePath("/");
 
     return {
       success: true,

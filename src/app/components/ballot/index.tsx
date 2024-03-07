@@ -6,16 +6,18 @@ import { CategoryWithNominees, User } from "@/types";
 import { BallotForm } from "./form";
 import { SelectCategory } from "./category/select";
 import useInterval from "@/hooks/useInterval";
+import { Scoreboard } from "../scoreboard";
 
 // The Oscars are held at this date time.
-const OSCARS_DATETIME = new Date("2024-02-10T19:00:00");
+const OSCARS_DATETIME = new Date("2024-03-07T19:42:00");
 
 export const Ballot = ({
   categories: defaultCategories,
+  team,
   ...props
 }: {
-  categories: CategoryWithNominees[];
   ballot?: User["ballot"];
+  categories: CategoryWithNominees[];
   team: User[];
   isAdmin: User["isAdmin"];
 }) => {
@@ -33,26 +35,27 @@ export const Ballot = ({
   // Stop the interval when voting is closed.
   let stopInterval = useInterval(checkVotingIsOpen, 1000);
 
+  // on mount check if voting is open.
+  useEffect(() => checkVotingIsOpen());
   useEffect(() => {
     !isVotingOpen && stopInterval();
   }, [isVotingOpen, stopInterval]);
 
   /***** Handle categories refetching *****/
-  const [categories, setCategories] = useState<CategoryWithNominees[]>(
-    defaultCategories || []
-  );
-  const { refetch } = useQuery(
+  const {
+    data: categories,
+    error,
+    refetch,
+  } = useQuery<CategoryWithNominees[], Error>(
     "categories",
     async () => {
-      const categories = await fetch(
+      const data = await fetch(
         `${process.env.NEXT_PUBLIC_BASE_URL}/api/categories`
       ).then((res) => res.json());
-      return categories;
+      return data.categories;
     },
     {
-      onSuccess: (data) => {
-        setCategories(data.categories);
-      },
+      initialData: defaultCategories || [],
       refetchInterval: 1000 * 10, // Refetch every 10 seconds.,
       refetchIntervalInBackground: true,
       enabled: !isVotingOpen, // enable refetching when voting is closed since this is used to detect category winners.
@@ -60,37 +63,49 @@ export const Ballot = ({
   );
 
   return (
-    <div className="flex flex-col">
-      {isVotingOpen && (
-        <p className="px-6 font-semibold text-center font-2xl py-10 mb-8 border-y-2 border-slate-200 dark:border-gray-700">
-          NOW OPEN
-        </p>
-      )}
-      <div className="text-center my-6 mx-4">
-        <h1 className="text-xl font-medium mb-4 text-center sm:text-3xl">
-          THE 96TH ACADEMY AWARDS | 2024
-        </h1>
-        <p className="text-md font-extralight sm:text-lg">
-          {isVotingOpen
-            ? `Voting closes at ${OSCARS_DATETIME.toLocaleString("en-US", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-              })}.`
-            : "Voting is closed."}
-        </p>
-      </div>
-      <div className="bg-white/50 mb-32 rounded-sm w-full px-4 max-w-screen-3xl mx-auto sm:px-6 sm:w-600 md:8 dark:bg-transparent">
-        <SelectCategory categories={categories} />
-        <BallotForm
-          categories={categories}
-          isVotingOpen={isVotingOpen}
-          triggerCategoriesUpdate={refetch}
-          {...props}
-        />
-      </div>
-    </div>
+    <>
+      {!isVotingOpen && <Scoreboard categories={categories} team={team} />}
+      <section id="ballot" className="flex flex-col">
+        {isVotingOpen && (
+          <p className="px-6 font-semibold text-center font-2xl py-10 mb-8 border-y-2 border-slate-200 dark:border-gray-700">
+            NOW OPEN
+          </p>
+        )}
+        <div className="text-center my-6 mx-4">
+          <h1 className="text-xl font-medium mb-4 text-center sm:text-3xl">
+            THE 96TH ACADEMY AWARDS | 2024
+          </h1>
+          <p className="text-md font-extralight sm:text-lg">
+            {isVotingOpen
+              ? `Voting closes at ${OSCARS_DATETIME.toLocaleString("en-US", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                })}.`
+              : "Voting is closed."}
+          </p>
+        </div>
+        {error && (
+          <p className="text-center text-red-500">
+            An error occurred while fetching categories.
+          </p>
+        )}
+        {/* The ballot form and category selection. */}
+        {categories && (
+          <div className="bg-white/50 mb-32 rounded-sm w-full px-4 max-w-screen-3xl mx-auto sm:px-6 sm:w-600 dark:bg-transparent">
+            <SelectCategory categories={categories} />
+            <BallotForm
+              categories={categories}
+              isVotingOpen={isVotingOpen}
+              triggerCategoriesUpdate={refetch}
+              team={team}
+              {...props}
+            />
+          </div>
+        )}
+      </section>
+    </>
   );
 };

@@ -7,7 +7,10 @@ export const Dashboard = () => {
   const { data: session } = useSession();
 
   return (
-    <div className="flex items-center relative color-white text-slate-900 dark:text-white bg-white dark:bg-gray-800 sm:p-6">
+    <section
+      id="dashboard"
+      className="flex items-center relative color-white text-slate-900 dark:text-white bg-white dark:bg-gray-800 sm:p-6"
+    >
       <div className="flex flex-1 items-center justify-between flex-col-reverse sm:flex-row">
         <h1 className="py-4 flex-1 whitespace-nowrap sm:py-0">
           <strong>Welcome</strong> {session?.user?.name?.split(" ")[0] || ""}!
@@ -31,6 +34,6 @@ export const Dashboard = () => {
           </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
