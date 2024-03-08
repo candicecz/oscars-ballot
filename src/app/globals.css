@@ -9,6 +9,16 @@
   --background-end-rgb: 255, 255, 255;
   --bg-dashboard: 255, 255, 255;
 }
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground-rgb: 0, 0, 0;
+    --background: 248, 250, 252;
+    --bg-dashboard: 255, 255, 255;
+    --foreground-rgb: 255, 255, 255;
+    --background: 15, 23, 42;
+    --bg-dashboard: 31, 41, 55;
+  }
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
@@ -17,7 +27,11 @@
     --bg-dashboard: 31, 41, 55;
   }
 }
-
+:root[data-theme="light"] {
+  --foreground-rgb: 0, 0, 0;
+  --background: 248, 250, 252;
+  --bg-dashboard: 255, 255, 255;
+}
 :root[data-theme="dark"] {
   --foreground-rgb: 255, 255, 255;
   --background: 15, 23, 42;
