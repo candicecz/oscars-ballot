@@ -115,7 +115,7 @@ export const BallotForm = ({
                           })}
                         />
                         {/* Admins can mark a nominee as a winner */}
-                        {isAdmin && !category.winnerId && !isVotingOpen && (
+                        {isAdmin && !isVotingOpen && (
                           <SelectWinnerBtn
                             categoryId={category._id}
                             isVotingOpen={isVotingOpen}
