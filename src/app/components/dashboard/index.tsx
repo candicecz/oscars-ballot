@@ -2,8 +2,10 @@
 import ThemeToggle from "../theme-toggle";
 import { useSession, signOut } from "next-auth/react";
 import Image from "next/image";
+import { InviteUsers } from "./invite";
+import { User } from "@/types";
 
-export const Dashboard = () => {
+export const Dashboard = ({ team }: { team: User[] }) => {
   const { data: session } = useSession();
 
   return (
@@ -13,7 +15,8 @@ export const Dashboard = () => {
     >
       <div className="flex flex-1 items-center justify-between flex-col-reverse sm:flex-row">
         <h1 className="py-4 flex-1 whitespace-nowrap sm:py-0">
-          <strong>Welcome</strong> {session?.user?.name?.split(" ")[0] || ""}!
+          <strong>Welcome &nbsp;</strong>
+          {session?.user?.name?.split(" ")[0] || ""}!
         </h1>
         <div className="flex flex-1 justify-center">
           <Image
@@ -25,6 +28,7 @@ export const Dashboard = () => {
         </div>
         <div className="flex flex-1 w-full justify-between p-2 sm:justify-end sm:p-0">
           <ThemeToggle />
+          <InviteUsers team={team} />
           <button
             type="button"
             onClick={() => signOut()}

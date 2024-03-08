@@ -34,6 +34,7 @@ export const getUserByEmail = async ({
     const client = await clientPromise;
     const db = client.db(process.env.DB_NAME);
     const users = await db.collection("users").find({ email }).toArray();
+    if (users.length === 0) return { user: null };
     return {
       user: JSON.parse(JSON.stringify(users[0])),
     };

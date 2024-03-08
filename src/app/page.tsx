@@ -14,7 +14,11 @@ export default async function Home() {
   const { user } = await getUserByEmail({
     email,
   });
-  const { users: team } = await getUsersByTeamId({ teamId: user?.teamId });
+  const { users: teamMembers } = await getUsersByTeamId({
+    teamId: user?.teamId,
+  });
+  // if no team, the user is the only one in the team
+  const team = teamMembers.length > 0 ? teamMembers : user ? [user] : [];
   return (
     <main className="flex min-h-screen flex-col min-w-72">
       <LoginButton />

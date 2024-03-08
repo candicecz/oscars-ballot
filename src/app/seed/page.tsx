@@ -33,9 +33,6 @@ export default async function SeedDBPage() {
     <>
       <Banner />
       <main className="flex flex-col mt-16">
-        <AuthRoute>
-          <Dashboard />
-        </AuthRoute>
         {/* Order matters here, seed categories before nominees. */}
         <>
           <SeedDatabase

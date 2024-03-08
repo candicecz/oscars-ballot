@@ -9,7 +9,7 @@ import useInterval from "@/hooks/useInterval";
 import { Scoreboard } from "../scoreboard";
 
 // The Oscars are held at this date time.
-const OSCARS_DATETIME = new Date("2024-03-07T19:42:00");
+const OSCARS_DATETIME = new Date("2024-03-10T19:00:00");
 
 export const Ballot = ({
   categories: defaultCategories,
