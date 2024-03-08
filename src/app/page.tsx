@@ -1,11 +1,11 @@
 import { Dashboard } from "./components/dashboard/";
-import { LoginButton } from "./components/login-btn";
 import { AuthRoute } from "./components/route-wrapper/auth-route";
 import { Ballot } from "./components/ballot";
 import { getCategories } from "./queries/categories";
 import { getUserByEmail, getUsersByTeamId } from "./queries/users";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "./api/auth/[...nextauth]/config";
+import { Login } from "./components/login";
 
 export default async function Home() {
   const { categories } = await getCategories();
@@ -21,9 +21,9 @@ export default async function Home() {
   const team = teamMembers.length > 0 ? teamMembers : user ? [user] : [];
   return (
     <main className="flex min-h-screen flex-col min-w-72">
-      <LoginButton />
+      {(!session || !session.user) && <Login />}
       <AuthRoute>
-        <Dashboard />
+        <Dashboard team={teamMembers} />
         <Ballot
           categories={categories}
           ballot={user?.ballot}
