@@ -3,7 +3,7 @@ import { CategoryWithNominees, User } from "@/types";
 export const colorScheme = [
   {
     bg: "bg-oscars-300 bg-gradient-to-r from-oscars-600 to-oscars-200/50",
-    color: "text-oscars-500",
+    color: "text-oscars-600",
 
     dark: {
       bg: "dark:bg-gradient-to-r dark:from-oscars-600 dark:to-oscars-200/50",
@@ -12,7 +12,7 @@ export const colorScheme = [
   },
   {
     bg: "bg-slate-300 bg-gradient-to-r from-slate-400 to-slate-200/50",
-    color: "text-slate-400",
+    color: "text-slate-500",
     dark: {
       bg: "dark:bg-slate-300 dark:bg-gradient-to-r dark:from-slate-400 dark:to-slate-200/50",
       color: "dark:text-slate-300",

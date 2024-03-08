@@ -56,7 +56,7 @@ export const Scoreboard = ({ team, categories }: ScoreboardProps) => {
       id="scoreboard"
       className="sticky top-0 z-10 w-full bg-white border-y-2 border-slate-100 dark:border-slate-100/20 dark:bg-gray-800"
     >
-      <div className="pl-4 pr-6 py-4 max-w-screen-3xl mx-auto sm:w-600 sm:pl-10 sm:pr-16">
+      <div className="pl-4 pr-6 py-2 max-w-screen-3xl mx-auto sm:w-600 sm:pl-10 sm:pr-16">
         {scores.slice(0, 3).map((user, idx) => {
           return (
             <div
@@ -85,8 +85,8 @@ export const Scoreboard = ({ team, categories }: ScoreboardProps) => {
                   <div
                     className={`absolute h-2.5 z-1 rounded-full ${colorScheme[idx]?.bg} ${colorScheme[idx]?.dark.bg}`}
                     style={{
+                      // calculate the width of the score bar based on the user's score and the total number of categories left so that the bar is full when the oscars are over even if the user has not won all categories
                       width:
-                        // calculate the width of the score bar based on the user's score and the total number of categories left so that the bar is full when the oscars are over even if the user has not won all categories
                         Math.round(
                           (user.score /
                             (remainingCategories + scores[0].score)) *
@@ -103,16 +103,15 @@ export const Scoreboard = ({ team, categories }: ScoreboardProps) => {
 
               {idx === 0 && (
                 <div
-                  className={`hidden sm:flex absolute w-8 h-8 top-0 -right-4 translate-x-full translate-y-1/2 justify-center items-end  ${
+                  className={`hidden -z-10 sm:flex absolute w-12 h-12 top-0 right-2 translate-x-full justify-center items-end  ${
                     remainingCategories > 0 ? "opacity-70" : "opacity-100"
-                  } opacity-70`}
+                  }`}
                 >
-                  <div className="absolute top-0 border-2 border-oscars-400/60 w-full h-full rounded-full bg-gray-800 -z-10" />
                   <Image
                     className="w-auto h-full"
-                    width={30}
-                    height={47}
-                    src={"/assets/oscar-bust.png"}
+                    width={98}
+                    height={215}
+                    src={"/assets/oscars-with-gradient.png"}
                     alt="Oscar statue"
                   />
                 </div>
