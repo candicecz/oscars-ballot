@@ -37,13 +37,14 @@ export const addUserToTeam = async (_: any, formData: FormData) => {
     if (!currentUser) {
       return { error: "Error processing request.", success: false };
     }
+
     //  Check if invited user is already part of the current user's team.
     if (invitedUser?.teamId === currentUser.teamId) {
-      return { error: "User is already in a team.", success: false };
+      return { error: "User is already in your team.", success: false };
     }
 
     //  Check if invited user is already part of team. Limit to one team per person right now.
-    if (invitedUser.teamId) {
+    if (!!invitedUser.teamId) {
       return { error: "User is already in a team.", success: false };
     }
 

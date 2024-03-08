@@ -140,7 +140,7 @@ export const BallotForm = ({
             error={state?.error}
             missingFields={missingCategories}
           />
-          <SubmitButton label="Submit button" />
+          <SubmitButton label="Submit" />
         </div>
       )}
     </form>
