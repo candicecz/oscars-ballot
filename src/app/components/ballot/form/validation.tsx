@@ -32,16 +32,19 @@ export const FormValidation = ({
       )}
       {/* Form was successfully submitted but the ballot is not fully filled in. */}
       {success && missingFields.length > 0 && (
-        <div className="text-center text-red-500 px-4 py-2">
-          Please vote for all categories:
-          <ul>
-            {missingFields.slice(0, 3).map((field) => (
-              <li key={field._id}>{field.name}</li>
-            ))}
-            {missingFields.length > 3 && (
-              <li>...and {missingFields.length - 3} more.</li>
-            )}
-          </ul>
+        <div className="flex flex-col items-center">
+          <div className="text-center text-red-500 px-4 py-2">
+            Please vote for all categories:
+            <ul>
+              {missingFields.slice(0, 3).map((field) => (
+                <li key={field._id}>{field.name}</li>
+              ))}
+              {missingFields.length > 3 && (
+                <li>...and {missingFields.length - 3} more.</li>
+              )}
+            </ul>
+          </div>
+          <div className="text-sm text-oscars-600">Saved successfully</div>
         </div>
       )}
       {/* Form submission failed. */}

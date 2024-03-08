@@ -140,7 +140,10 @@ export const BallotForm = ({
             error={state?.error}
             missingFields={missingCategories}
           />
-          <SubmitButton label="Submit" />
+          <SubmitButton label="Save" />
+          <p className="text-sm text-oscars-600">
+            You may change your votes until the deadline
+          </p>
         </div>
       )}
     </form>
