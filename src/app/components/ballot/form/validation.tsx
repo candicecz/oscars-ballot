@@ -1,14 +1,32 @@
+"use client";
 import { CategoryWithNominees } from "@/types";
+import { useEffect, useState } from "react";
 
 export const FormValidation = ({
   success,
   error,
   missingFields,
+  form,
 }: {
   success: boolean;
   error?: any;
+  form: {
+    [key: string]: string;
+  };
   missingFields: CategoryWithNominees[];
 }) => {
+  const [showSaveMessage, setShowSaveMessage] = useState(false);
+
+  useEffect(() => {
+    if (success && form) {
+      setShowSaveMessage(true);
+      const timeout = setTimeout(() => {
+        setShowSaveMessage(false);
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [success, form]);
+
   return (
     <>
       {/* Form was successfully submitted and the ballot is fully filled in. */}
@@ -44,7 +62,9 @@ export const FormValidation = ({
               )}
             </ul>
           </div>
-          <div className="text-sm text-oscars-600">Saved successfully</div>
+          {showSaveMessage && (
+            <div className="text-sm text-oscars-600">Saved successfully</div>
+          )}
         </div>
       )}
       {/* Form submission failed. */}

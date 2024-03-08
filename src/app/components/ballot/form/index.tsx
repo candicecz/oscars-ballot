@@ -136,6 +136,7 @@ export const BallotForm = ({
       {isVotingOpen && (
         <div className="flex flex-col items-center py-4 mt-8 mb-20">
           <FormValidation
+            form={state.form}
             success={state.success}
             error={state?.error}
             missingFields={missingCategories}
