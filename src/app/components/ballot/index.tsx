@@ -9,7 +9,8 @@ import useInterval from "@/hooks/useInterval";
 import { Scoreboard } from "../scoreboard";
 
 // The Oscars are held at this date time.
-const OSCARS_DATETIME = new Date("2024-03-10T19:00:00");
+const OSCARS_DATETIME = new Date(`${process.env.NEXT_PUBLIC_OSCARS_DATETIME}`);
+export const year = OSCARS_DATETIME.getFullYear();
 
 export const Ballot = ({
   categories: defaultCategories,
@@ -56,7 +57,7 @@ export const Ballot = ({
     },
     {
       initialData: defaultCategories || [],
-      refetchInterval: 1000 * 10, // Refetch every 10 seconds.,
+      refetchInterval: 1000 * 5, // Refetch every 5 seconds.,
       refetchIntervalInBackground: true,
       enabled: !isVotingOpen, // enable refetching when voting is closed since this is used to detect category winners.
     }
@@ -73,7 +74,7 @@ export const Ballot = ({
         )}
         <div className="text-center my-6 mx-4">
           <h1 className="text-xl font-medium mb-4 text-center sm:text-3xl">
-            THE 96TH ACADEMY AWARDS | 2024
+            THE 96TH ACADEMY AWARDS | {year}
           </h1>
           <p className="text-md font-extralight sm:text-lg">
             {isVotingOpen

@@ -5,9 +5,13 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const year = new Date(
+  `${process.env.NEXT_PUBLIC_OSCARS_DATETIME}`
+).getFullYear();
+
 export const metadata: Metadata = {
-  title: "Oscars Ballot 2024",
-  description: "Vote for your favorite movies and actors for the 2024 Oscars.",
+  title: `Oscars Ballot | ${year}`,
+  description: `Vote for your favorite movies and actors for the ${year} Oscars.`,
 };
 
 export default function RootLayout({
