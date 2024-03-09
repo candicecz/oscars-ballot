@@ -6,7 +6,7 @@ import Image from "next/image";
 export const Login = () => {
   return (
     <div className="w-full h-full flex flex-col items-center min-h-screen px-6  bg-white  dark:bg-gray-800 dark:border-gray-700 dark:bg-transparent">
-      <div className="relative w-full min-h-screen max-w-md mx-auto flex flex-col justify-center p-6 sm:-translate-y-20 sm:w-1/2 ">
+      <div className="relative w-full min-h-screen max-w-md mx-auto flex flex-col justify-center p-6 sm:w-1/2 ">
         <Image
           src="/assets/oscars-banner.png"
           width={670}
