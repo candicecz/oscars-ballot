@@ -5,7 +5,7 @@ import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export const year = new Date(
+const year = new Date(
   `${process.env.NEXT_PUBLIC_OSCARS_DATETIME}`
 ).getFullYear();
 
