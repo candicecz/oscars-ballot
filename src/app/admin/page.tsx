@@ -7,6 +7,7 @@ import { getCategories } from "@/queries/categories";
 import { getNominees } from "@/queries/nominees";
 import { authOptions } from "@/api/auth/[...nextauth]/config";
 import { getUserByEmail } from "@/queries/users";
+import { Dashboard } from "@/components/dashboard";
 
 export default async function SeedDBPage() {
   const session = await getServerSession(authOptions);
@@ -29,8 +30,9 @@ export default async function SeedDBPage() {
   const { nominees } = await getNominees();
   return (
     <>
+      <Dashboard team={[]} />
       <Banner />
-      <main className="w-full flex mt-16">
+      <main className="w-full flex flex-col sm:flex-row mt-8">
         {/* Order matters here, seed categories before nominees. */}
         <div className="flex flex-col">
           <SeedDatabase
@@ -46,7 +48,7 @@ export default async function SeedDBPage() {
             seedFn={seedNominees}
           />
         </div>
-        <div className="flex flex-col w-full max-w-7xl p-6 m-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col p-6 m-6 max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 sm:max-w-7xl sm:m-6 ">
           <div className="mb-2">
             <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
               Guide on setting up the database
@@ -55,8 +57,8 @@ export default async function SeedDBPage() {
               How to set up the ballot for a new year
             </p>
           </div>
-          <section className="my-2 text-sm text-gray-600">
-            <div className="flex-col bg-yellow-100/30 p-4">
+          <section className="my-2 text-sm text-gray-600 dark:text-gray-300">
+            <div className="flex-col bg-yellow-100/30 p-4 dark:bg-yellow-100/10">
               <p className="text-sm font-bold mb-2">Quick Start</p>
               <ol className="list-decimal list-inside ml-2">
                 <li className="mt-2 code:font-bold">
@@ -80,7 +82,10 @@ export default async function SeedDBPage() {
             </div>
           </section>
 
-          <section id="about-database" className="my-2 text-sm text-gray-600">
+          <section
+            id="about-database"
+            className="my-2 text-sm text-gray-600 dark:text-gray-300"
+          >
             <h4 className="text-lg font-semibold tracking-tight mt-4 text-gray-700 dark:text-white">
               About the database
             </h4>
@@ -98,7 +103,10 @@ export default async function SeedDBPage() {
               should be seeded before voting opens.
             </p>
           </section>
-          <section id="seeding-database" className="my-2 text-sm text-gray-600">
+          <section
+            id="seeding-database"
+            className="my-2 text-sm text-gray-600 dark:text-gray-300"
+          >
             <h4 className="text-lg font-semibold tracking-tight mt-4 text-gray-700 dark:text-white">
               Instructions on seeding the database.
             </h4>
@@ -117,7 +125,7 @@ export default async function SeedDBPage() {
               <li className="mt-2 flex-col">
                 Seed the database by pressing the <code>Seed Categories</code>{" "}
                 and <code>Seed nominees</code> buttons on this page. <br />
-                <div className="mt-2 flex-col bg-blue-100/50 p-6">
+                <div className="mt-2 flex-col bg-blue-100/50 dark:bg-blue-500/20 p-6">
                   <strong>Important: </strong>
                   You must seed the categories before the nominees.
                 </div>
@@ -129,7 +137,10 @@ export default async function SeedDBPage() {
             </ol>
           </section>
 
-          <section id="env-variables" className="my-2 text-sm text-gray-600">
+          <section
+            id="env-variables"
+            className="my-2 text-sm text-gray-600 dark:text-gray-300"
+          >
             <h4 className="text-lg font-semibold tracking-tight mt-4 text-gray-700 dark:text-white">
               Configuring the <code>.env</code> variables
             </h4>
@@ -168,7 +179,7 @@ export default async function SeedDBPage() {
                 </li>
               </ul>
             </div>
-            <div className="mt-2 flex-col bg-blue-100/50 p-6">
+            <div className="mt-2 flex-col bg-blue-100/50 dark:bg-blue-500/20 p-6">
               <p className="text-sm font-bold mb-2">TLDR</p>
               <p>
                 In the future, if nothing has changed with the database, the
@@ -179,7 +190,10 @@ export default async function SeedDBPage() {
             </div>
           </section>
 
-          <section id="about-project" className="my-2 text-sm text-gray-600">
+          <section
+            id="about-project"
+            className="my-2 text-sm text-gray-600 dark:text-gray-300"
+          >
             <h4 className="text-lg font-semibold tracking-tight mt-4 text-gray-700 dark:text-white">
               About the project
             </h4>
@@ -227,7 +241,7 @@ export default async function SeedDBPage() {
           </section>
           <section
             id="further-improvements"
-            className="my-2 text-sm text-gray-600"
+            className="my-2 text-sm text-gray-600 dark:text-gray-300"
           >
             <h4 className="text-lg font-semibold tracking-tight mt-4 text-gray-700 dark:text-white">
               Further Improvements

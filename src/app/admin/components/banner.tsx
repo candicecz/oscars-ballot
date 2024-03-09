@@ -2,7 +2,7 @@ export const Banner = () => {
   return (
     <div
       id="sticky-banner"
-      className="fixed top-0 start-0 z-50 flex justify-between w-full p-4 border-b border-red-200 bg-red-50 dark:bg-red-700 dark:border-red-600"
+      className="sticky top-0 start-0 z-50 flex justify-between w-full p-4 border-b border-red-200 bg-red-50 dark:bg-red-700 dark:border-red-600"
     >
       <div className="flex items-center mx-auto">
         <p className="flex items-center text-sm font-normal text-red-500 dark:text-red-400">
