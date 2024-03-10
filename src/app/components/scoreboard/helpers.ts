@@ -1,5 +1,14 @@
 import { CategoryWithNominees, User } from "@/types";
 
+export const defaultTheme = {
+  bg: "bg-gradient-to-r from-sky-700 to-sky-200/50",
+  color: "text-blue-600",
+  dark: {
+    bg: "dark:bg-gradient-to-r dark:from-sky-600/50 dark:to-sky-200/70",
+    color: "dark:text-sky-300",
+  },
+};
+
 export const colorScheme = [
   {
     bg: "bg-oscars-300 bg-gradient-to-r from-oscars-600 to-oscars-200/50",
