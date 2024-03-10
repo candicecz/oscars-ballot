@@ -57,7 +57,7 @@ export const Ballot = ({
     },
     {
       initialData: defaultCategories || [],
-      refetchInterval: 1000 * 5, // Refetch every 5 seconds.,
+      refetchInterval: 1000 * 10, // Refetch every 5 seconds.,
       refetchIntervalInBackground: true,
       enabled: !isVotingOpen, // enable refetching when voting is closed since this is used to detect category winners.
     }
