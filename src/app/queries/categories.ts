@@ -1,6 +1,7 @@
 import { CategoryWithNominees } from "@/types";
 import clientPromise from "../../../lib/mongodb";
 
+export const revalidate = 0;
 export const getCategories = async (): Promise<{
   categories: CategoryWithNominees[];
 }> => {
